@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .calculator{
+      border: 1px solid black;
+      max-width: 200px;
+      max-height: 400px;
+      margin: 10% auto;
+    }
+    header{
+      border: 1px solid red;
+      margin: 10px auto;
+      height: 50px;
+      width: 180px;
+      overflow-y: hidden;
+    }
+    .button{
+      border: 1px solid gray;
+      height: 30px;
+      width: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #action{
+      display: flex;
+      justify-content: space-around;
+    }
+    #numbers{
+      max-width: 150px;
+      margin: 0px auto;
+      display: grid;
+      grid-template-columns: repeat(3, calc(130px / 3));
+      gap: 5px;
+    }
+    main{
+      margin: 10px auto;
+      width: 180px;
+      display: grid;
+      grid-template-columns: 135px 30px;
+      grid-template-rows: 1fr;
+      gap: 14px; 
+    }
+    .equation{
+      height: 100%;
+      width: 100%;
+    }
+    #answer{
+      margin-top: 13px;
+      text-align: right;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <header>
+      <div id="display"></div>
+      <div id="answer"></div>
+    </header>
+    <div id="action">
+      <div class="add button">+</div>
+      <div class="minus button">-</div>
+      <div class="multiply button">*</div>
+      <div class="divide button">/</div>
+    </div>
+  <main>
+    <div id="numbers">
+      <button class="1 button">1</button>
+      <button class="2 button">2</button>
+      <button class="3 button">3</button>
+      <button class="4 button">4</button>
+      <button class="5 button">5</button>
+      <button class="6 button">6</button>
+      <button class="7 button">7</button>
+      <button class="8 button">8</button>
+      <button class="9 button">9</button>
+      <button class="dot button">.</button>
+      <button class="zero button">0</button>
+      <button class="clear button">AC</button>
+    </div>
+    <div id="ans" class="equation button">=</div>
+  </main>
+  </div>
+</body>
+<script>
+  function add(num1, num2){
+    return num1 + num2
+  }
+  function minus(num1, num2){
+    return num1 - num2
+  }
+  function multiply(num1, num2){
+    return num1 * num2
+  }
+  function divide(num1, num2){
+    return num1 / num2
+  }
+  function convert(num1){
+    if(flotNumber){
+      return parseFloat(num1)
+    }
+    else if(!flotNumber){
+      return parseInt(num1)
+    }
+  }
+  // for number
+  let actionClicked = 0
+  let dply = document.getElementById("display")
+  let answer = document.getElementById("answer")
+  let flotNumber = false
+  let action = document.getElementById("action")
+document.getElementById("numbers").addEventListener('click', function(event){
+    if(event.target.classList.contains('clear')){
+    dply.innerText = ""
+    answer.innerText = ""
+    actionClicked = 0
+    answered = false
+    flotNumber = false
+  }
+  else if(actionClicked === 1){
+    dply.innerText = dply.innerText + " " + event.target.innerText
+    actionClicked += 1
+  }
+  else if(event.target.classList.contains('button')){
+    dply.innerText += event.target.innerText
+    if(event.target.classList.contains('dot')){
+      flotNumber = true
+    }
+  }
+})
+// for equation
+document.getElementById("action").addEventListener('click', function(event){
+    if(event.target.classList.contains('button') && actionClicked === 0){
+    actionClicked = actionClicked + 1
+    dply.innerText = dply.innerText + " " + event.target.innerText
+  }
+
+}
+)
+// answer
+document.getElementById("ans").addEventListener('click', function(){
+  let userInput = dply.innerText.split(" ")
+  if(userInput.includes("-")){
+    answer.innerText = minus(convert(userInput[0]), convert(userInput[2]))
+  }
+  if(userInput.includes("+")){
+    answer.innerText = add(convert(userInput[0]), convert(userInput[2]))
+  }
+  if(userInput.includes("/")){
+    answer.innerText =divide(convert(userInput[0]), convert(userInput[2]))
+  }
+  if(userInput.includes("*")){
+    answer.innerText = multiply(convert(userInput[0]), convert(userInput[2]))
+  }
+})
+</script>
+</html>
